@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1601882342 source:e:\applications\c\structure\main.c
+	<stdio.h>
+	<stdlib.h>
+	"student.h"
+
+1601882318 e:\applications\c\structure\student.h
+
