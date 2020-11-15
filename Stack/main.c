@@ -11,33 +11,35 @@ struct Stack
 
 int IsFull(struct Stack* stack)
 {
-    return (stack->top == stack->size -1) ? 1 : 0;
+    return (stack->top == (stack->size -1)) ? 1 : 0;
 }
 
 int IsEmpty(struct Stack* stack)
 {
-    return (stack->top < stack->size) ? 1 : 0;
+    return (stack->top == -1) ? 1 : 0;
 }
 
 
 void Push (struct Stack* stack, int data)
 {
-    if(IsEmpty(stack))
+    if(!IsFull(stack))
     {
         stack->top++;
         stack->arr[stack->top] = data;
     }
 }
 
-void Pop(struct Stack* stack)
+int Pop(struct Stack* stack)
 {
-    if(IsEmpty(stack))
+    int value = stack->arr[stack->top];
+    if(!IsEmpty(stack))
         stack->top--;
+    return value;
 }
 
 int Peek(struct Stack* stack, int index)
 {
-    return stack->arr[(stack->top -index)];
+    return stack->arr[(index-1)];
 
 }
 
@@ -56,6 +58,7 @@ void Traverse(struct Stack* stack)
         index--;
     }
 }
+
 
 int main()
 {
