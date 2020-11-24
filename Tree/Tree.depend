@@ -1,5 +1,8 @@
 # depslib dependency file v1.0
-1605591219 source:e:\applications\data structure\tree\main.c
+1606215183 source:e:\applications\data structure\tree\main.c
 	<stdio.h>
 	<stdlib.h>
+	"TreeTraverse.h"
+
+1606215247 e:\applications\data structure\tree\treetraverse.h
 

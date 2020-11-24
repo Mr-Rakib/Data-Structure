@@ -1,83 +1,125 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-struct Tree
-{
-    int data;
-    struct Tree* left;
-    struct Tree* right;
-};
+#include "TreeTraverse.h"
 
 
-struct Tree* newTree(int data)
+struct Tree* MinValue(struct Tree* root)
 {
-    struct Tree* node = (struct Tree*) malloc(sizeof(struct Tree));
-    node->data = data;
-    node->left = NULL;
-    node->right = NULL;
-    return node;
-}
-void Postorder(struct Tree* node)
-{
-    if(node == NULL)
+    struct Tree* temp = root;
+    while(temp != NULL && temp->left != NULL)
     {
-        return ;
+        temp = temp->left;
     }
-    Postorder(node->left);
-    Postorder(node->right);
-    printf("%d ", node->data);
+    return temp;
 }
 
-void Preorder(struct Tree* node)
+struct Tree* MaxValue(struct Tree* root)
 {
-    if(node == NULL)
+    struct Tree* temp = root;
+    while(temp != NULL && temp->right != NULL)
     {
-        return ;
+        temp = temp->right;
     }
-    printf("%d ", node->data);
-    Preorder(node->left);
-    Preorder(node->right);
+    return temp;
 }
 
-void Inorder(struct Tree* node)
+struct Tree* Insert(struct Tree* root, int data)
 {
-    if(node == NULL)
+    struct Tree* tempTree = newTree(data);
+
+    if(root == NULL)
     {
-        return ;
+        return tempTree;
     }
-    Inorder(node->left);
-    printf("%d ", node->data);
-    Inorder(node->right);
+
+    if(data<= root->data)
+    {
+        root->left = Insert(root->left, data);
+    }
+
+    else if(data> root->data)
+    {
+        root->right = Insert(root->right, data);
+    }
+
+    return root;
+}
+
+struct Tree* deleteNode(struct Tree* root, int key)
+{
+    if (root == NULL)
+    {
+        return root;
+    }
+
+    if (key < root->data)
+    {
+        root->left = deleteNode(root->left, key);
+    }
+    else if (key > root->data)
+    {
+        root->right = deleteNode(root->right, key);
+    }
+
+
+    else
+    {
+        if (root->left == NULL)
+        {
+            struct Tree* temp = root->right;
+            free(root);
+            return temp;
+        }
+        else if (root->right == NULL)
+        {
+            struct Tree* temp = root->left;
+            free(root);
+            return temp;
+        }
+
+        struct Tree* temp = MinValue(root->right);
+        root->data = temp->data;
+        root->right = deleteNode(root->right, temp->data);
+    }
+    return root;
 }
 
 int main()
 {
-    struct Tree* root;
-    struct Tree* second;
-    struct Tree* third;
-    struct Tree* fourth;
-    struct Tree* fifth;
-    struct Tree* six;
+    struct Tree* root = NULL;
 
-    root = newTree(5);
-    second = newTree(4);
-    third = newTree(6);
-    fourth = newTree(1);
-    fifth = newTree(2);
-    six = newTree(10);
+    root = Insert(root, 5);
+    Insert(root, 4);
+    Insert(root, 6);
+    Insert(root, 2);
+    Insert(root, 3);
+    Insert(root, 8);
+    Insert(root, 7);
+    Insert(root, 1);
 
-    root->left = second;
-    root->right = third;
+    Insert(root, 15);
+    Insert(root, 12);
+    Insert(root, 13);
+    Insert(root, 14);
+    Insert(root, 9);
+    Insert(root, 10);
+    Insert(root, 11);
+    Insert(root, 17);
+    Insert(root, 19);
+    Insert(root, 18);
 
-    second->left = fourth;
-    second->right = fifth;
 
-    third->right = six;
-    printf("Preorder : ");
-    Preorder(root);
-    printf("\nInorder : ");
+    printf("\nIn-order   : ");
     Inorder(root);
-    printf("\nPostorder : ");
+
+
+    printf("\nEnd-order  : ");
+    Endorder(root);
+
+    printf("\nPre-order  : ");
+    Preorder(root);
+
+    printf("\nPost-order : ");
     Postorder(root);
 
     return 0;
