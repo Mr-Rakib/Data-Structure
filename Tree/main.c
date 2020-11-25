@@ -1,88 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "TreeTraverse.h"
+#include "Operations.h"
 
+// Tree Traverse: In-order,Pre-order, Post-order, End-order*
+// Operations: Search(BST), Insert, Delete, Min, Max,
 
-struct Tree* MinValue(struct Tree* root)
+int MaxDepth(struct Tree* root)
 {
-    struct Tree* temp = root;
-    while(temp != NULL && temp->left != NULL)
-    {
-        temp = temp->left;
-    }
-    return temp;
-}
-
-struct Tree* MaxValue(struct Tree* root)
-{
-    struct Tree* temp = root;
-    while(temp != NULL && temp->right != NULL)
-    {
-        temp = temp->right;
-    }
-    return temp;
-}
-
-struct Tree* Insert(struct Tree* root, int data)
-{
-    struct Tree* tempTree = newTree(data);
-
     if(root == NULL)
-    {
-        return tempTree;
-    }
-
-    if(data<= root->data)
-    {
-        root->left = Insert(root->left, data);
-    }
-
-    else if(data> root->data)
-    {
-        root->right = Insert(root->right, data);
-    }
-
-    return root;
-}
-
-struct Tree* deleteNode(struct Tree* root, int key)
-{
-    if (root == NULL)
-    {
-        return root;
-    }
-
-    if (key < root->data)
-    {
-        root->left = deleteNode(root->left, key);
-    }
-    else if (key > root->data)
-    {
-        root->right = deleteNode(root->right, key);
-    }
-
-
+        return 0;
     else
     {
-        if (root->left == NULL)
-        {
-            struct Tree* temp = root->right;
-            free(root);
-            return temp;
-        }
-        else if (root->right == NULL)
-        {
-            struct Tree* temp = root->left;
-            free(root);
-            return temp;
-        }
+        int ldepth = MaxDepth(root->left);
+        int rdepth = MaxDepth(root->right);
 
-        struct Tree* temp = MinValue(root->right);
-        root->data = temp->data;
-        root->right = deleteNode(root->right, temp->data);
+        //printf("L: %d   R: %d\n", ldepth, rdepth);
+        return (ldepth >= rdepth) ? ldepth+1 : rdepth+1;
     }
-    return root;
 }
+
 
 int main()
 {
@@ -108,10 +45,10 @@ int main()
     Insert(root, 19);
     Insert(root, 18);
 
+    Delete(root, 9);
 
     printf("\nIn-order   : ");
     Inorder(root);
-
 
     printf("\nEnd-order  : ");
     Endorder(root);
@@ -121,6 +58,9 @@ int main()
 
     printf("\nPost-order : ");
     Postorder(root);
+
+    printf("\nSearch Result: %d\n", Search(root, 11)->data);
+    printf("Max Height : %d\n",MaxDepth(root));
 
     return 0;
 }

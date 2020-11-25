@@ -1,4 +1,3 @@
-
 struct Tree
 {
     int data;
@@ -34,7 +33,6 @@ void Preorder(struct Tree* node)
         Preorder(node->right);
     }
 }
-
 
 void Inorder(struct Tree* node)
 {
